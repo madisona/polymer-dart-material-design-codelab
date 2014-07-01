@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>PolymerMobileCodelab</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+  
+    <link rel="stylesheet" href="styles.css">
+  
+    <script src="packages/web_components/platform.js"></script>
+    <script src="packages/web_components/dart_support.js"></script>  
+    <link rel="import" href="packages/core_elements/core_header_panel.html">
+    <script type="application/dart" src="main.dart"></script>
+    
+    <script type="application/dart">export 'package:polymer/init.dart';</script>
+  </head>
+  <body unresolved>
+    <core-header-panel>
+      <div class="core-header">I'm PolymerMobileCodelab, a web app with Polymer!</div>
+      <div class="content"></div>
+    </core-header-panel>
+    
+  </body>
+</html>
