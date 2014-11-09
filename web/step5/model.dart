@@ -1,6 +1,6 @@
 import 'package:polymer/polymer.dart';
 
-class Note {
+class Note extends Observable{
   @observable String body;
   @observable bool done;
   

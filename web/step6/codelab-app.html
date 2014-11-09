@@ -2,22 +2,23 @@
 <link rel="import" href="../../packages/paper_elements/roboto.html">
 <link rel="import" href="../../packages/core_elements/core_drawer_panel.html">
 <link rel="import" href="../../packages/core_elements/core_header_panel.html">
-<link rel="import" href="../../packages/core_elements/core_toolbar.html">
 <link rel="import" href="../../packages/core_elements/core_icons.html">
+<link rel="import" href="../../packages/core_elements/core_toolbar.html">
 <link rel="import" href="../../packages/paper_elements/paper_icon_button.html">
 <link rel="import" href="../../packages/paper_elements/paper_fab.html">
 <link rel="import" href="../../packages/paper_elements/paper_input.html">
 <link rel="import" href="../../packages/paper_elements/paper_checkbox.html">
 
+
 <polymer-element name="codelab-app">
   <template>
     <link rel="stylesheet" href="styles.css">
     <core-drawer-panel responsiveWidth="600px" id="drawerPanel">
-  
+
       <core-header-panel drawer>
         <core-toolbar>My notes</core-toolbar>
       </core-header-panel>
-  
+
       <core-header-panel main>
         <core-toolbar>
           <paper-icon-button icon="menu" on-click="{{toggleDrawer}}"></paper-icon-button>
@@ -34,7 +35,7 @@
                value="{{newNote}}"></paper-input>
           <template repeat="{{data}}" >
             <div center horizontal layout class="item">
-              <paper-checkbox checked="{{done}}"></paper-checkbox>
+              <paper-checkbox checked="{{done}}" on-change="{{dataChanged}}"></paper-checkbox>
               <div flex class="card">
                 <p>{{body}}</p>
               </div>
@@ -42,7 +43,6 @@
           </template>
         </div>
       </core-header-panel>
-  
     </core-drawer-panel>
   </template>
   <script type="application/dart" src="codelab-app.dart"></script>
