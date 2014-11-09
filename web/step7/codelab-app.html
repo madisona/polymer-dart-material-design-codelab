@@ -1,0 +1,77 @@
+<link rel="import" href="../../packages/polymer/polymer.html">
+<link rel="import" href="../../packages/paper_elements/roboto.html">
+<link rel="import" href="../../packages/core_elements/core_drawer_panel.html">
+<link rel="import" href="../../packages/core_elements/core_header_panel.html">
+<link rel="import" href="../../packages/core_elements/core_icons.html">
+<link rel="import" href="../../packages/core_elements/core_toolbar.html">
+<link rel="import" href="../../packages/paper_elements/paper_icon_button.html">
+<link rel="import" href="../../packages/paper_elements/paper_fab.html">
+<link rel="import" href="../../packages/paper_elements/paper_input.html">
+<link rel="import" href="../../packages/paper_elements/paper_checkbox.html">
+
+
+<link rel="import" href="../../packages/core_elements/core_item.html">
+<link rel="import" href="../../packages/paper_elements/paper_button.html">
+<link rel="import" href="../../packages/paper_elements/paper_toggle_button.html">
+<link rel="import" href="../../packages/paper_elements/paper_icon_button.html">
+<link rel="import" href="../../packages/paper_elements/paper_slider.html">
+<link rel="import" href="../../packages/paper_elements/paper_toast.html">
+
+<polymer-element name="codelab-app">
+  <template>
+    <link rel="stylesheet" href="styles.css">
+    <core-drawer-panel responsiveWidth="600px" id="drawerPanel">
+
+      <core-header-panel drawer>
+        <core-toolbar>My notes</core-toolbar>
+        <core-item>
+          <label flex>Fade out selected</label>
+          <paper-toggle-button class="blue" checked="{{fadeSelected}}">
+          </paper-toggle-button>
+        </core-item>
+        <core-item>
+          <label flex>Delete selected</label>
+          <paper-icon-button icon="delete" on-click="{{delete}}"></paper-icon-button>
+        </core-item>
+        <core-item>
+          <div center horizontal layout>
+            <div>Font size</div>
+            <paper-slider value="{{fontSize}}" max="32" editable></paper-slider>
+          </div>
+        </core-item>
+        <core-item>
+          <paper-button raisedButton class="colored" label="reset"
+                        on-click="{{reset}}"></paper-button>
+        </core-item>
+        <paper-toast id="toast" class="capsule" text="Settings have been reset!"
+               duration="800"></paper-toast>
+      </core-header-panel>
+
+      <core-header-panel main>
+        <core-toolbar>
+          <paper-icon-button icon="menu" on-click="{{toggleDrawer}}"></paper-icon-button>
+          <span flex>My notes</span>
+          <paper-icon-button icon="search"></paper-icon-button>
+          <paper-icon-button icon="more-vert"></paper-icon-button>
+          <paper-fab icon="icons:add" on-click="{{showNewNoteInput}}"></paper-fab>
+        </core-toolbar>
+        <div class="content" data-fade-selected="{{fadeSelected}}">
+          <paper-input id="newNoteInput"
+               floatingLabel
+               label="Add a new note"
+               on-change="{{add}}"
+               value="{{newNote}}"></paper-input>
+          <template repeat="{{data}}" >
+            <div center horizontal layout class="item" data-done="{{done}}">
+              <paper-checkbox checked="{{done}}" on-change="{{dataChanged}}"></paper-checkbox>
+              <div flex class="card">
+                <p>{{body}}</p>
+              </div>
+            </div>
+          </template>
+        </div>
+      </core-header-panel>
+    </core-drawer-panel>
+  </template>
+  <script type="application/dart" src="codelab-app.dart"></script>
+</polymer-element>

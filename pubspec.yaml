@@ -20,4 +20,5 @@ transformers:
     - web/step3/index.html    
     - web/step4/index.html
     - web/step5/index.html         
-    - web/step6/index.html    
+    - web/step6/index.html
+    - web/step7/index.html
