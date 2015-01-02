@@ -2,8 +2,6 @@ import 'package:polymer/polymer.dart';
 import 'dart:html';
 import 'dart:convert' show JSON;
 
-import 'model.dart' show Note;
-
 
 const storageKey = "storage";
 
@@ -24,7 +22,7 @@ class CodelabApp extends PolymerElement {
     // populate data initially from the local storage.
     if (localStorage.containsKey(storageKey)) {
         for (var item in JSON.decode(localStorage[storageKey])) {
-          data.add(new Note.fromJson(item));
+          data.add(toObservable(item));
         }
     }
   }
@@ -51,14 +49,14 @@ class CodelabApp extends PolymerElement {
   void add(Event e, Object detail, Node sender) {
     e.preventDefault();;
     if (sender.value != null) {
-      data.insert(0, new Note(sender.value, false));
+      data.insert(0, toObservable({"body": sender.value, "done": false}));
       $['newNoteInput'].style.display = 'none';
       $['newNoteInput'].value = null;
     }
   }
 
   void delete() {
-    data.removeWhere((note) => note.done == true);
+    data.removeWhere((note) => note['done'] == true);
   }
 
   void reset() {

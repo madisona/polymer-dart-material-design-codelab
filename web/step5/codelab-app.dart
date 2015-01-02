@@ -1,8 +1,6 @@
 import 'package:polymer/polymer.dart';
 import 'dart:html';
 
-import 'model.dart' show Note;
-
 
 @CustomTag('codelab-app')
 class CodelabApp extends PolymerElement {
@@ -26,7 +24,7 @@ class CodelabApp extends PolymerElement {
   void add(Event e, Object detail, Node sender) {
     e.preventDefault();;
     if (sender.value != null) {
-      data.insert(0, new Note(sender.value, false));
+      data.insert(0, toObservable({"body": sender.value, "done": false}));
       $['newNoteInput'].style.display = 'none';
       $['newNoteInput'].value = null;
     }

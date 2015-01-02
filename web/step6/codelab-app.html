@@ -33,11 +33,11 @@
                label="Add a new note"
                on-change="{{add}}"
                value="{{newNote}}"></paper-input>
-          <template repeat="{{data}}" >
+          <template repeat="{{item in data}}" >
             <div center horizontal layout class="item">
-              <paper-checkbox checked="{{done}}" on-change="{{dataChanged}}"></paper-checkbox>
+              <paper-checkbox checked="{{item['done']}}" on-change="{{dataChanged}}"></paper-checkbox>
               <div flex class="card">
-                <p>{{body}}</p>
+                <p>{{item['body']}}</p>
               </div>
             </div>
           </template>
