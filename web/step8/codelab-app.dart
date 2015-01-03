@@ -1,12 +1,13 @@
 import 'package:polymer/polymer.dart';
+import 'package:collection/equality.dart' show DeepCollectionEquality;
 import 'dart:html';
 import 'dart:convert' show JSON;
+import 'package:firebase/firebase.dart' show Firebase, Query, Event;
 
-import 'model.dart' show Note;
 
-
-const storageKey = "storage";
-
+const storageKey = "storagetest";
+const FB_URL = "https://<your-firebase>.firebaseio.com/";
+Function deepEq = const DeepCollectionEquality().equals;
 
 @CustomTag('codelab-app')
 class CodelabApp extends PolymerElement {
@@ -15,17 +16,28 @@ class CodelabApp extends PolymerElement {
   @observable String newNote;
   @observable bool fadeSelected = true;
   @observable var fontSize = '14';
-  Storage localStorage = window.localStorage;
+  Firebase fb;
 
   CodelabApp.created() : super.created() {
     // adding a new note should be hidden by default.
     $['newNoteInput'].style.display = 'none';
 
-    // populate data initially from the local storage.
-    if (localStorage.containsKey(storageKey)) {
-        for (var item in JSON.decode(localStorage[storageKey])) {
-          data.add(new Note.fromJson(item));
-        }
+    fb = new Firebase(FB_URL);
+    fb.child(storageKey).onValue.listen(updateDataItem);
+  }
+
+  void updateDataItem(Event e) {
+    // Received data update from Firebase. We only really want to change
+    // data here if it is different than what we've already got.  We have a loop
+    // where we update data, it tells firebase, firebase tells the app, app updates, tells fb again, etc...
+    var value = e.snapshot.val();
+
+    if (value != null && !deepEq(value, data)) {
+      var notes = [];
+      for (var item in JSON.decode(value)) {
+        notes.add(toObservable(item));
+      }
+      data.replaceRange(0, data.length, notes);
     }
   }
 
@@ -38,7 +50,7 @@ class CodelabApp extends PolymerElement {
   }
 
   void dataChanged(val) {
-    localStorage[storageKey] = JSON.encode(data);
+    fb.set({storageKey: JSON.encode(data)});
   }
 
   void fontSizeChanged() {
@@ -51,14 +63,14 @@ class CodelabApp extends PolymerElement {
   void add(Event e, Object detail, Node sender) {
     e.preventDefault();;
     if (newNote != null) {
-      data.insert(0, new Note(newNote, false));
+      data.insert(0, toObservable({"body": sender.value, "done": false}));
       $['newNoteInput'].style.display = 'none';
       newNote = null;
     }
   }
 
   void delete() {
-    data.removeWhere((note) => note.done == true);
+    data.removeWhere((note) => note['done'] == true);
   }
 
   void reset() {
